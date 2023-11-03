@@ -74,6 +74,7 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
   const { currentUser } = useAuth();
   //gets a folder when the folder isn't the root
   const getMyDoc = async () => {
+    console.log("debug1")
     const docRef = doc(database.folders, folderID as string)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
@@ -92,25 +93,30 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
   }
 
   useEffect(() => {
+    console.log("debug2")
+    console.log("folderID in useFolder3: ", folderID)
     dispatch({type: 'SELECT_FOLDER', payload: {folderID, folder}})
   }, [folderID, folder])
 
   useEffect(() => {
+    console.log("folderID in useFolder1: ", folderID)
     if (folderID == null){
+      console.log("debug3")
       return dispatch({
         type: "UPDATE_FOLDER",
         payload: { folder: ROOT_FOLDER}
       })
     }
     getMyDoc()
+    console.log("folderID in useFolder: ", folderID)
   }, [folderID])
 
   useEffect(() => {
+    console.log("debug4")
     const q = query(database.folders, 
       where("parentID", "==", folderID),
       where("userID", "==", currentUser!.uid),
       orderBy("createdAt"))
-    
       const listener = onSnapshot(q, querySnapshot => {
         let curfolders: FolderType[] = [];
         querySnapshot.docs.forEach((doc) => {

@@ -16,7 +16,7 @@ function App() {
           <Routes>
             {/* GDrive */}
             <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-            <Route path="/folder/:folderId" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="/folder/:folderID" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
 
             {/* Profile */}
             <Route path="/user" element={<PrivateRoute><Profile /></PrivateRoute>} />

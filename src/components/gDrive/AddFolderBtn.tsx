@@ -23,7 +23,7 @@ export default function AddFolderBtn({currentFolder}: Props) {
   function closeModal() {
     setOpen(false);
   }
-
+  
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
     const tempFolder: FolderType = {

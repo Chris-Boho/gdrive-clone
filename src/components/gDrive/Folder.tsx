@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Folder({folder}: {folder: FolderType}) {
+  console.log("folderid in folder.tsx: ", folder.id)
   return (
     <Link to={`/folder/${folder.id}`}>  
       <Button variant="outline-dark" className="text-truncate w-100">

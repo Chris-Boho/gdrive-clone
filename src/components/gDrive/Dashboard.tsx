@@ -9,9 +9,6 @@ import FolderBreadCrumbs from "./FolderBreadCrumbs"
 export default function Dashboard() {
   const { folderID } = useParams()
   const { folder, childFolders } = useFolder(folderID)
-  console.log("folder: ", folder?.name)
-  console.log("folder.id: ", folder?.id)
-  console.log("folderID: ", folderID)
 
   return (
     <>
