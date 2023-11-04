@@ -9,14 +9,20 @@ export type FolderType = {
   parentID: string | null,
   userID: string | null,
   createdAt?: FieldValue,
+  path: PathType[]
 }
 
 type RootType = {
   name: string,
-  id: null,
+  id?: string | null,
   parentID: null,
   userID: null,
-  path: []
+  path: PathType[]
+}
+
+type PathType = {
+  name: string,
+  id: string | null
 }
 
 type FolderState = {
@@ -32,7 +38,7 @@ type Action =
   | { type: 'SET_CHILD_FOLDERS'; payload: { childFolders: FolderType[] } }
 
 const ROOT_FOLDER: RootType = {
-  name: "Root",
+  name: "ROOT",
   id: null,
   parentID: null,
   userID: null, 
@@ -74,9 +80,9 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
   const { currentUser } = useAuth();
   //gets a folder when the folder isn't the root
   const getMyDoc = async () => {
-    console.log("debug1")
     const docRef = doc(database.folders, folderID as string)
     const docSnap = await getDoc(docRef)
+    console.log("docSnap: ", docSnap.id)
     if (docSnap.exists()) {
       dispatch({
         type: "UPDATE_FOLDER",
@@ -93,15 +99,11 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
   }
 
   useEffect(() => {
-    console.log("debug2")
-    console.log("folderID in useFolder3: ", folderID)
     dispatch({type: 'SELECT_FOLDER', payload: {folderID, folder}})
   }, [folderID, folder])
 
   useEffect(() => {
-    console.log("folderID in useFolder1: ", folderID)
     if (folderID == null){
-      console.log("debug3")
       return dispatch({
         type: "UPDATE_FOLDER",
         payload: { folder: ROOT_FOLDER}
@@ -112,7 +114,6 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
   }, [folderID])
 
   useEffect(() => {
-    console.log("debug4")
     const q = query(database.folders, 
       where("parentID", "==", folderID),
       where("userID", "==", currentUser!.uid),
@@ -132,6 +133,5 @@ export function useFolder(folderID: string | null = null, folder: FolderType | n
       return () => listener()
   }, [folderID, currentUser])
 
-  console.log("childFolders: ",state.childFolders)
   return state
 }

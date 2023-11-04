@@ -6,6 +6,7 @@ type Props = {
   };
 
 export default function FolderBreadCrumbs({currentFolder}: Props) {
+  console.log("currentFolderPath: ",currentFolder?.path)
   return (
     <Breadcrumb className="flex-grow-1" listProps={{className: "bg-red pl-0 m-0"}}>
         {currentFolder && (
@@ -15,6 +16,7 @@ export default function FolderBreadCrumbs({currentFolder}: Props) {
             active
         >
             {currentFolder.name}
+            
         </Breadcrumb.Item>
         )}
     </Breadcrumb>

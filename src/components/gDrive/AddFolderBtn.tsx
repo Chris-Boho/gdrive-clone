@@ -23,16 +23,27 @@ export default function AddFolderBtn({currentFolder}: Props) {
   function closeModal() {
     setOpen(false);
   }
-  
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
+    const path = currentFolder!.path
+    console.log("currentFolder_PATH: ",currentFolder!.path);
+
+    if (currentFolder !== null) {
+      if (currentFolder.name !== "ROOT") {
+        //worked
+        path.push({ name: currentFolder.name, id: currentFolder.parentID })
+      }
+    }
+
+    console.log("currentFID: ", currentFolder!.id);
     const tempFolder: FolderType = {
       name: name,
       parentID: currentFolder!.id as string,
       userID: currentUser!.uid,
       createdAt: database.getCurrentTimestamp(),
+      path: path,
     }
-    console.log("dbFolders: ",database.folders);
     await addDoc(database.folders, tempFolder)
       .then((docRef) => {
         console.log("Folder added with ID: ", docRef);

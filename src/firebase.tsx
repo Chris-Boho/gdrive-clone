@@ -21,7 +21,16 @@ export const database = {
     folders: collection(db, "folders"),
     files: collection(db, "files"),
     formatDoc: (doc: QueryDocumentSnapshot) => {
-        return { id: doc.id, ...doc.data()}
+        const newDoc = {
+            name: doc.data().name,
+            id: doc.id,
+            parentID: doc.data().parentID,
+            userID: doc.data().userID,
+            createdAt: doc.data().createdAt,
+            path: doc.data().path
+        }
+        // console.log("newDoc: ", newDoc)
+        return newDoc
     },
     getCurrentTimestamp: serverTimestamp,
 

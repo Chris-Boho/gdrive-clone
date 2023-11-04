@@ -1,4 +1,4 @@
 # GDrive Clone 
 
 Based on wds gdrive.
-Written in Typescript with firebase v10
+Written in Typescript with Firebase v10
