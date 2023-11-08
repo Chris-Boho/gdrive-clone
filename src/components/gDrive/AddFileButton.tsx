@@ -9,14 +9,7 @@ import { useState } from "react";
 import ReactDOM from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import { ProgressBar, Toast } from "react-bootstrap";
-import {
-  doc,
-  updateDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { doc, updateDoc, query, where } from "firebase/firestore";
 
 type Props = {
   currentFolder: FolderType | null;
