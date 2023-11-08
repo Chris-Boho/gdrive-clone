@@ -8,10 +8,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { FolderType } from "../../hooks/useFolder";
 
 type Props = {
-  currentFolder: FolderType | null
+  currentFolder: FolderType | null;
 };
 
-export default function AddFolderBtn({currentFolder}: Props) {
+export default function AddFolderBtn({ currentFolder }: Props) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const { currentUser } = useAuth();
@@ -24,15 +24,18 @@ export default function AddFolderBtn({currentFolder}: Props) {
     setOpen(false);
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const path = currentFolder!.path
-    console.log("currentFolder_PATH: ",currentFolder!.path);
+    const path = currentFolder!.path;
+    console.log("currentFolder_PATH: ", currentFolder!.path);
 
     if (currentFolder !== null) {
-      if (currentFolder.name !== "ROOT") {
-        //worked
-        path.push({ name: currentFolder.name, id: currentFolder.parentID })
+      if (currentFolder.name !== "Root") {
+        path.push(
+          currentFolder.id
+            ? { name: currentFolder.name, id: currentFolder.id }
+            : { name: currentFolder.name, id: null }
+        );
       }
     }
 
@@ -43,7 +46,7 @@ export default function AddFolderBtn({currentFolder}: Props) {
       userID: currentUser!.uid,
       createdAt: database.getCurrentTimestamp(),
       path: path,
-    }
+    };
     await addDoc(database.folders, tempFolder)
       .then((docRef) => {
         console.log("Folder added with ID: ", docRef);
@@ -52,8 +55,8 @@ export default function AddFolderBtn({currentFolder}: Props) {
         console.error("Error adding folder: ", error);
       });
 
-    setName("")
-    closeModal()
+    setName("");
+    closeModal();
   }
 
   return (
@@ -76,10 +79,10 @@ export default function AddFolderBtn({currentFolder}: Props) {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={closeModal}>
-                Close
+              Close
             </Button>
             <Button variant="success" type="submit">
-                Add Folder
+              Add Folder
             </Button>
           </Modal.Footer>
         </Form>
